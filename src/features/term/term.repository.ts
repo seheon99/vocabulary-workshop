@@ -29,3 +29,11 @@ export async function findOneTerm(id: Term["id"]): Promise<Term | null> {
     },
   });
 }
+
+export async function getRandomTerm(): Promise<Term | null> {
+  const termCount = await prisma.term.count();
+  const skip = Math.floor(Math.random() * termCount);
+  return await prisma.term.findFirst({
+    skip,
+  });
+}
