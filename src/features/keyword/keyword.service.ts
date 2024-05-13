@@ -1,33 +1,31 @@
+"use server";
+
 import { prisma } from "@/prisma";
 
-import type { Keyword, PrismaClient } from "@prisma/client";
+import type { Keyword } from "@prisma/client";
 
-class KeywordService {
-  constructor(private prisma: PrismaClient) {}
-
-  async create({
-    text,
-    termId,
-  }: Pick<Keyword, "text" | "termId">): Promise<Keyword> {
-    return this.prisma.keyword.create({
-      data: {
-        text,
-        termId,
-      },
-    });
-  }
-
-  async findAll(): Promise<Keyword[]> {
-    return await this.prisma.keyword.findMany();
-  }
-
-  async findOne(id: Keyword["id"]): Promise<Keyword | null> {
-    return await this.prisma.keyword.findUnique({
-      where: {
-        id,
-      },
-    });
-  }
+export async function createKeyword({
+  text,
+  termId,
+}: Pick<Keyword, "text" | "termId">): Promise<Keyword> {
+  return prisma.keyword.create({
+    data: {
+      text,
+      termId,
+    },
+  });
 }
 
-export const keywordService = new KeywordService(prisma);
+export async function findAllKeywords(): Promise<Keyword[]> {
+  return await prisma.keyword.findMany();
+}
+
+export async function findOneKeyword(
+  id: Keyword["id"]
+): Promise<Keyword | null> {
+  return await prisma.keyword.findUnique({
+    where: {
+      id,
+    },
+  });
+}

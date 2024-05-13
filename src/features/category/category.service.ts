@@ -1,29 +1,29 @@
+"use server";
+
 import { prisma } from "@/prisma";
 
-import type { Category, PrismaClient } from "@prisma/client";
+import type { Category } from "@prisma/client";
 
-class CategoryService {
-  constructor(private prisma: PrismaClient) {}
-
-  async create({ name }: Pick<Category, "name">): Promise<Category> {
-    return this.prisma.category.create({
-      data: {
-        name,
-      },
-    });
-  }
-
-  async findAll(): Promise<Category[]> {
-    return await this.prisma.category.findMany();
-  }
-
-  async findOne(id: Category["id"]): Promise<Category | null> {
-    return await this.prisma.category.findUnique({
-      where: {
-        id,
-      },
-    });
-  }
+export async function createCategory({
+  name,
+}: Pick<Category, "name">): Promise<Category> {
+  return prisma.category.create({
+    data: {
+      name,
+    },
+  });
 }
 
-export const categoryService = new CategoryService(prisma);
+export async function findAllCategories(): Promise<Category[]> {
+  return await prisma.category.findMany();
+}
+
+export async function findOneCategory(
+  id: Category["id"]
+): Promise<Category | null> {
+  return await prisma.category.findUnique({
+    where: {
+      id,
+    },
+  });
+}

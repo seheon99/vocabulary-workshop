@@ -9,12 +9,12 @@ import {
   TableHead,
   TableHeader,
 } from "@/components";
-import { categoryService } from "@/features/category/category.service";
-import { termService } from "@/features/term/term.service";
+import { findAllCategories } from "@/features/category/category.service";
+import { findAllTerms } from "@/features/term/term.service";
 
 export default async function Home() {
-  const categories = await categoryService.findAll();
-  const terms = await termService.findAll();
+  const categories = await findAllCategories();
+  const terms = await findAllTerms();
 
   return (
     <main className="max-h-screen snap-y overflow-y-scroll">
