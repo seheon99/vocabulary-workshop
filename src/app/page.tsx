@@ -1,4 +1,4 @@
-import { Text, Strong } from "@/components/catalyst";
+import { Text, Strong } from "@/components";
 
 export default function Home() {
   return (
