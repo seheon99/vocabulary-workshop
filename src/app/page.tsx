@@ -9,8 +9,8 @@ import {
   TableHead,
   TableHeader,
 } from "@/components";
-import { findAllCategories } from "@/features/category/category.service";
-import { findAllTerms } from "@/features/term/term.service";
+import { findAllCategories } from "@/features/category/category.repository";
+import { findAllTerms } from "@/features/term/term.repository";
 
 export default async function Home() {
   const categories = await findAllCategories();
