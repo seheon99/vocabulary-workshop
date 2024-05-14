@@ -14,11 +14,11 @@ export async function createCategory({
   });
 }
 
-export async function findAllCategories(): Promise<Category[]> {
+export async function findCategories(): Promise<Category[]> {
   return await prisma.category.findMany();
 }
 
-export async function findOneCategory(
+export async function findCategory(
   id: Category["id"]
 ): Promise<Category | null> {
   return await prisma.category.findUnique({

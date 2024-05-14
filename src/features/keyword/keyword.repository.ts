@@ -16,13 +16,11 @@ export async function createKeyword({
   });
 }
 
-export async function findAllKeywords(): Promise<Keyword[]> {
+export async function findKeywords(): Promise<Keyword[]> {
   return await prisma.keyword.findMany();
 }
 
-export async function findOneKeyword(
-  id: Keyword["id"]
-): Promise<Keyword | null> {
+export async function findKeyword(id: Keyword["id"]): Promise<Keyword | null> {
   return await prisma.keyword.findUnique({
     where: {
       id,

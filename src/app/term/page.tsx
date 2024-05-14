@@ -1,6 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 
-import { findAllTerms, getRandomTerm } from "@/features/term/term.repository";
+import { getRandomTerm } from "@/features/term/term.repository";
 
 export default async function Terms() {
   const terms = await getRandomTerm();
@@ -8,5 +8,6 @@ export default async function Terms() {
   if (!terms) {
     notFound();
   }
+
   redirect(`/term/${terms.id}`);
 }

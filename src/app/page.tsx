@@ -9,12 +9,12 @@ import {
   TableHead,
   TableHeader,
 } from "@/components";
-import { findAllCategories } from "@/features/category/category.repository";
-import { findAllTerms } from "@/features/term/term.repository";
+import { findCategories } from "@/features/category/category.repository";
+import { findTerms } from "@/features/term/term.repository";
 
 export default async function Home() {
-  const categories = await findAllCategories();
-  const terms = await findAllTerms();
+  const categories = await findCategories();
+  const terms = await findTerms();
 
   return (
     <main className="">

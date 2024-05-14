@@ -18,11 +18,11 @@ export async function createTerm({
   });
 }
 
-export async function findAllTerms(): Promise<Term[]> {
+export async function findTerms(): Promise<Term[]> {
   return await prisma.term.findMany();
 }
 
-export async function findOneTerm(id: Term["id"]): Promise<Term | null> {
+export async function findTerm(id: Term["id"]): Promise<Term | null> {
   return await prisma.term.findUnique({
     where: {
       id,
