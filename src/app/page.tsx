@@ -17,9 +17,9 @@ export default async function Home() {
   const terms = await findAllTerms();
 
   return (
-    <main className="max-h-screen snap-y overflow-y-scroll">
+    <main className="">
       <Link href="/term">
-        <div className="flex min-h-screen shrink-0 snap-center flex-col items-center justify-center gap-10">
+        <div className="flex min-h-screen flex-col items-center justify-center gap-10">
           <Strong className="text-6xl">Vocabulary Workshop</Strong>
           <Text>
             <Strong>Click</Strong> anywhere to start or <Strong>Scroll</Strong>{" "}
@@ -28,7 +28,7 @@ export default async function Home() {
         </div>
       </Link>
 
-      <div className="max-h-screen shrink-0 snap-center overflow-y-scroll p-20">
+      <div className="p-20">
         <Table>
           <TableHead>
             <TableRow>
