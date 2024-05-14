@@ -24,10 +24,21 @@ model Term {
   categoryId String
   Keyword    Keyword[]
   Category   Category  @relation(fields: [categoryId], references: [id])
+  Answer     Answer[]
 }
 
 model Keyword {
   id        String   @id @default(cuid())
+  text      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  termId    String
+  Term      Term     @relation(fields: [termId], references: [id])
+}
+
+model Answer {
+  id        String   @id @default(cuid())
+  ip        String
   text      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
