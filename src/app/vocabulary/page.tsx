@@ -9,5 +9,5 @@ export default async function Terms() {
     notFound();
   }
 
-  redirect(`/term/${terms.id}`);
+  redirect(`/vocabulary/${terms.id}`);
 }

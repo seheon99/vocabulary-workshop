@@ -18,7 +18,7 @@ export default async function Home() {
 
   return (
     <main className="">
-      <Link href="/term">
+      <Link href="/vocabulary">
         <div className="flex min-h-screen flex-col items-center justify-center gap-10">
           <Strong className="text-6xl">Vocabulary Workshop</Strong>
           <Text>
@@ -38,24 +38,6 @@ export default async function Home() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {terms.map(async (t) => (
-              <TableRow key={t.id}>
-                <TableCell>
-                  {categories.find(({ id }) => id === t.categoryId)?.name}
-                </TableCell>
-                <TableCell>{t.name}</TableCell>
-                <TableCell>{t.definition}</TableCell>
-              </TableRow>
-            ))}
-            {terms.map(async (t) => (
-              <TableRow key={t.id}>
-                <TableCell>
-                  {categories.find(({ id }) => id === t.categoryId)?.name}
-                </TableCell>
-                <TableCell>{t.name}</TableCell>
-                <TableCell>{t.definition}</TableCell>
-              </TableRow>
-            ))}
             {terms.map(async (t) => (
               <TableRow key={t.id}>
                 <TableCell>
