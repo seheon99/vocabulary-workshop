@@ -1,13 +1,11 @@
 "use server";
 
-import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 
-import { createSubmission } from "./submission.repository";
-import { getSessionId } from "../session/session.action";
+import { getSessionId } from "@/features/session/session.action";
+import { SUBMISSION_ANSWER_KEY, SUBMISSION_TERMID_KEY } from "@/global-keys";
 
-export const SUBMISSION_TERMID_KEY = "term-id";
-export const SUBMISSION_ANSWER_KEY = "answer";
+import { createSubmission } from "./submission.repository";
 
 export async function submitAnswer(formData: FormData) {
   const termId = formData.get(SUBMISSION_TERMID_KEY);
