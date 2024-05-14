@@ -16,8 +16,14 @@ export async function createKeyword({
   });
 }
 
-export async function findKeywords(): Promise<Keyword[]> {
-  return await prisma.keyword.findMany();
+export async function findKeywords({
+  termId,
+}: Partial<Pick<Keyword, "termId">>): Promise<Keyword[]> {
+  return await prisma.keyword.findMany({
+    where: {
+      termId,
+    },
+  });
 }
 
 export async function findKeyword(id: Keyword["id"]): Promise<Keyword | null> {
