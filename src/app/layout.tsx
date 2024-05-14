@@ -14,7 +14,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-zinc-50 dark:bg-zinc-950">{children}</body>
+      <head>
+        <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+      </head>
+      <body className="bg-white dark:bg-zinc-900">{children}</body>
     </html>
   );
 }
