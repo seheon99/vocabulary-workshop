@@ -27,11 +27,13 @@ export default async function Submission({
 
   const category = await findCategory(term.categoryId);
   const keywords = await findKeywords({ termId: term.id });
-  const keywordTexts = keywords.map((keyword) => keyword.text);
 
-  const regexp = new RegExp(`(${keywordTexts.join("|")})`, "gi");
-  const definitionParts = term.definition.split(regexp);
+  const regexp = new RegExp(
+    `(${keywords.map((keyword) => keyword.text).join("|")})`,
+    "gi"
+  );
   const includedKeywordTexts: string[] = submission.answer.match(regexp) || [];
+  const definitionParts = term.definition.split(regexp);
 
   return (
     <main className="mx-auto mt-20 flex min-h-screen max-w-3xl flex-col gap-8">
