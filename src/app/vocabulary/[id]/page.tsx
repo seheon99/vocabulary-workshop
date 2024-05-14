@@ -11,14 +11,13 @@ export default async function Vocabulary({
   const term = await findTerm(id);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-10">
+    <main className="mx-auto mt-20 flex min-h-screen max-w-3xl flex-col items-center gap-10">
       <Strong className="text-3xl font-bold">{term?.name}</Strong>
-      <form className="w-full max-w-3xl" action={submitAnswer}>
+      <form className="w-full" action={submitAnswer}>
         <Field>
           <Input type="hidden" name={SUBMISSION_TERMID_KEY} value={term?.id} />
           <Label>Answer</Label>
           <Input
-            className="max-w-3xl"
             name={SUBMISSION_ANSWER_KEY}
             placeholder="Type your answer here"
             autoFocus
