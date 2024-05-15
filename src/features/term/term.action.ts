@@ -14,11 +14,44 @@ import {
   VOCABULARY_KEYWORDS_KEY,
   VOCABULARY_REDIRECTURL_KEY,
   VOCABULARY_TERMID_KEY,
+  VOCABULARY_TERMNAME_KEY,
 } from "@/global-keys";
 
-import { findTerm, updateTerm } from "./term.repository";
+import { createTerm, findTerm, updateTerm } from "./term.repository";
 
-export async function updateVocabulary(formData: FormData) {
+export async function createTermAction(formData: FormData) {
+  const categoryId = formData.get(VOCABULARY_CATEGORYID_KEY);
+  const termName = formData.get(VOCABULARY_TERMNAME_KEY);
+  const definition = formData.get(VOCABULARY_DEFINITION_KEY);
+  const keywords = formData.getAll(VOCABULARY_KEYWORDS_KEY) as string[];
+
+  if (
+    !categoryId ||
+    !termName ||
+    !definition ||
+    !keywords ||
+    typeof categoryId !== "string" ||
+    typeof termName !== "string" ||
+    typeof definition !== "string" ||
+    !Array.isArray(keywords) ||
+    keywords.some((text) => typeof text !== "string")
+  ) {
+    notFound();
+  }
+
+  const term = await createTerm({ categoryId, name: termName, definition });
+  for (const keyword of keywords) {
+    const trimmedKeyword = keyword.trim();
+    if (trimmedKeyword.length === 0) {
+      continue;
+    }
+    await createKeyword({ text: trimmedKeyword, termId: term.id });
+  }
+
+  redirect("/");
+}
+
+export async function updateTermAction(formData: FormData) {
   const sessionId = await getSessionId();
 
   if (!sessionId) {

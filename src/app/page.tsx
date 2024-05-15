@@ -8,6 +8,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
+  Button,
 } from "@/components";
 import { findCategories } from "@/features/category/category.repository";
 import { findTerms } from "@/features/term/term.repository";
@@ -29,6 +30,11 @@ export default async function Home() {
       </Link>
 
       <div className="p-20">
+        <Link href="/vocabulary/add">
+          <Button className="mt-8 w-full" plain>
+            Add new vocabulary
+          </Button>
+        </Link>
         <Table>
           <TableHead>
             <TableRow>
