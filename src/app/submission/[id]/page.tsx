@@ -120,14 +120,18 @@ export default async function Submission({
       <div className="flex justify-between">
         <div className="flex-1" />
         <div className="flex flex-1 justify-center">
-          <Button plain>
-            <ArrowPathIcon /> Retry
-          </Button>
+          <Link href={`/vocabulary/${term.id}`}>
+            <Button plain>
+              <ArrowPathIcon /> Retry
+            </Button>
+          </Link>
         </div>
         <div className="flex flex-1 justify-end">
-          <Button plain>
-            Next <ChevronRightIcon />
-          </Button>
+          <Link href="/vocabulary">
+            <Button plain>
+              Next <ChevronRightIcon />
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
