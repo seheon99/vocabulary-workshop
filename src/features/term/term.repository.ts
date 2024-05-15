@@ -37,3 +37,13 @@ export async function getRandomTerm(): Promise<Term | null> {
     skip,
   });
 }
+
+export async function updateTerm(
+  id: Term["id"],
+  data: Partial<Omit<Term, "id" | "createdAt" | "updatedAt">>
+): Promise<Term> {
+  return prisma.term.update({
+    where: { id },
+    data,
+  });
+}
