@@ -8,9 +8,10 @@ import { SUBMISSION_ANSWER_KEY, SUBMISSION_TERMID_KEY } from "@/global-keys";
 import { createSubmission } from "./submission.repository";
 
 export async function submitAnswer(formData: FormData) {
+  const sessionId = await getSessionId();
+
   const termId = formData.get(SUBMISSION_TERMID_KEY);
   const answer = formData.get(SUBMISSION_ANSWER_KEY);
-  const sessionId = await getSessionId();
 
   if (
     !sessionId ||
