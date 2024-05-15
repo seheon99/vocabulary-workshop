@@ -33,3 +33,11 @@ export async function findKeyword(id: Keyword["id"]): Promise<Keyword | null> {
     },
   });
 }
+
+export async function deleteKeyword(id: Keyword["id"]): Promise<void> {
+  await prisma.keyword.delete({
+    where: {
+      id,
+    },
+  });
+}

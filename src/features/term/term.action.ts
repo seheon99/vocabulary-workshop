@@ -2,63 +2,70 @@
 
 import { notFound, redirect } from "next/navigation";
 
+import {
+  createKeyword,
+  deleteKeyword,
+  findKeywords,
+} from "@/features/keyword/keyword.repository";
 import { getSessionId } from "@/features/session/session.action";
 import {
   VOCABULARY_CATEGORYID_KEY,
   VOCABULARY_DEFINITION_KEY,
+  VOCABULARY_KEYWORDS_KEY,
   VOCABULARY_REDIRECTURL_KEY,
   VOCABULARY_TERMID_KEY,
 } from "@/global-keys";
 
 import { findTerm, updateTerm } from "./term.repository";
-import { createTermUpdateLog } from "../term-update-log/term-update-log.repository";
 
 export async function updateVocabulary(formData: FormData) {
   const sessionId = await getSessionId();
+
+  if (!sessionId) {
+    notFound();
+  }
 
   const termId = formData.get(VOCABULARY_TERMID_KEY);
   const categoryId = formData.get(VOCABULARY_CATEGORYID_KEY);
   const definition = formData.get(VOCABULARY_DEFINITION_KEY);
   const redirectUrl = formData.get(VOCABULARY_REDIRECTURL_KEY);
+  const userKeywords = formData.getAll(VOCABULARY_KEYWORDS_KEY) as string[];
 
   if (
-    !sessionId ||
     !termId ||
     !categoryId ||
     !definition ||
     !redirectUrl ||
+    !userKeywords ||
     typeof termId !== "string" ||
     typeof categoryId !== "string" ||
     typeof definition !== "string" ||
-    typeof redirectUrl !== "string"
+    typeof redirectUrl !== "string" ||
+    !Array.isArray(userKeywords) ||
+    userKeywords.some((text) => typeof text !== "string")
   ) {
     notFound();
   }
 
   const term = await findTerm(termId);
-
   if (!term) {
     notFound();
   }
 
-  if (term.categoryId !== categoryId) {
-    await createTermUpdateLog({
-      termId,
-      fieldChanged: "categoryId",
-      oldValue: term.categoryId,
-      newValue: categoryId,
-      sessionId,
-    });
+  const storedKeywords = await findKeywords({ termId: term.id });
+  for (const keyword of storedKeywords) {
+    if (!userKeywords.includes(keyword.text)) {
+      await deleteKeyword(keyword.id);
+    }
   }
-
-  if (term.definition !== definition) {
-    await createTermUpdateLog({
-      termId,
-      fieldChanged: "definition",
-      oldValue: term.definition,
-      newValue: definition,
-      sessionId,
-    });
+  for (const keyword of userKeywords) {
+    const trimmedKeyword = keyword.trim();
+    if (trimmedKeyword.length === 0) {
+      continue;
+    }
+    if (!storedKeywords.some((k) => k.text === trimmedKeyword)) {
+      await createKeyword({ text: trimmedKeyword, termId: term.id });
+    }
   }
 
   await updateTerm(termId, { categoryId, definition });

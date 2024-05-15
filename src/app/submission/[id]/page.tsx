@@ -10,6 +10,7 @@ import { findCategory } from "@/features/category/category.repository";
 import { findKeywords } from "@/features/keyword/keyword.repository";
 import { getSessionId } from "@/features/session/session.action";
 import { findSubmission } from "@/features/submission/submission.repository";
+import { Definition } from "@/features/term/definition";
 import { findTerm } from "@/features/term/term.repository";
 
 export default async function Submission({
@@ -32,14 +33,7 @@ export default async function Submission({
 
   const category = await findCategory(term.categoryId);
   const keywords = await findKeywords({ termId: term.id });
-
-  const regexp = new RegExp(
-    `(${keywords.map((keyword) => keyword.text).join("|")})`,
-    "gi"
-  );
-  const includedKeywordTexts: string[] = submission.answer.match(regexp) || [];
-  const answerParts = submission.answer.split(regexp);
-  const definitionParts = term.definition.split(regexp);
+  const keywordTexts = keywords.map((keyword) => keyword.text);
 
   return (
     <div className="mx-auto mt-20 flex max-w-3xl flex-col gap-20">
@@ -59,41 +53,25 @@ export default async function Submission({
         </div>
         <div>
           <Strong>Your Answer</Strong>
-          <Text>
-            {answerParts.map((part, index) =>
-              regexp.test(part) ? <Badge key={index}>{part}</Badge> : part
-            )}
-          </Text>
+          <Definition
+            value={submission.answer}
+            keywords={keywordTexts}
+            color="blue"
+          />
         </div>
         <div>
           <Strong>Definition</Strong>
-          <Text>
-            {definitionParts.map((part, index) =>
-              regexp.test(part) ? (
-                <Badge
-                  key={index}
-                  color={
-                    includedKeywordTexts.includes(part.toLowerCase())
-                      ? "blue"
-                      : "red"
-                  }
-                >
-                  {part}
-                </Badge>
-              ) : (
-                part
-              )
-            )}
-          </Text>
+          <Definition
+            value={term.definition}
+            keywords={keywords.map((k) => k.text)}
+          />
         </div>
         <div className="flex">
           <div className="flex-1">
             <Strong>Included Keywords</Strong>
             <div className="mt-2 flex flex-wrap gap-2">
               {keywords
-                .filter((keyword) =>
-                  includedKeywordTexts.includes(keyword.text)
-                )
+                .filter((keyword) => submission.answer.includes(keyword.text))
                 .map((keyword) => (
                   <Badge key={keyword.id} color="blue">
                     {keyword.text}
@@ -105,9 +83,7 @@ export default async function Submission({
             <Strong>Missing Keywords</Strong>
             <div className="mt-2 flex flex-wrap gap-2">
               {keywords
-                .filter(
-                  (keyword) => !includedKeywordTexts.includes(keyword.text)
-                )
+                .filter((keyword) => !submission.answer.includes(keyword.text))
                 .map((keyword) => (
                   <Badge key={keyword.id} color="red">
                     {keyword.text}

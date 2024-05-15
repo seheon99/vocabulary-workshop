@@ -15,7 +15,7 @@ export default async function Vocabulary({
       <Strong className="text-3xl font-bold">{term?.name}</Strong>
       <form className="w-full" action={submitAnswer}>
         <Field>
-          <Input type="hidden" name={SUBMISSION_TERMID_KEY} value={term?.id} />
+          <input type="hidden" name={SUBMISSION_TERMID_KEY} value={term?.id} />
           <Label>Answer</Label>
           <Input
             name={SUBMISSION_ANSWER_KEY}
