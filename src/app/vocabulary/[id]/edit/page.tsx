@@ -4,7 +4,6 @@ import {
   Button,
   Field,
   Fieldset,
-  Input,
   Label,
   Link,
   Select,
@@ -12,7 +11,7 @@ import {
 } from "@/components";
 import { findCategories } from "@/features/category/category.repository";
 import { findKeywords } from "@/features/keyword/keyword.repository";
-import { updateVocabulary } from "@/features/term/term.action";
+import { updateTermAction } from "@/features/term/term.action";
 import { findTerm } from "@/features/term/term.repository";
 import {
   EDIT_REDIRECT_KEY,
@@ -21,7 +20,7 @@ import {
   VOCABULARY_TERMID_KEY,
 } from "@/global-keys";
 
-import { DefinitionField } from "./definition-field";
+import { DefinitionField } from "../../../../components/definition-field";
 
 export default async function VocabularyEdit({
   params: { id },
@@ -42,9 +41,9 @@ export default async function VocabularyEdit({
   return (
     <main>
       <h1>
-        <Strong className="text-3xl">Edit {term?.name}</Strong>
+        <Strong className="text-3xl">{term.name}</Strong>
       </h1>
-      <form action={updateVocabulary} className="mt-10 flex flex-col gap-8">
+      <form action={updateTermAction} className="mt-10 flex flex-col gap-8">
         <Fieldset className="flex flex-col gap-4">
           <input
             name={VOCABULARY_REDIRECTURL_KEY}

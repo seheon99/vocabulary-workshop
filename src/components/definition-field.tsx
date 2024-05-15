@@ -3,7 +3,7 @@
 import { Keyword, Term } from "@prisma/client";
 import React, { useEffect, useRef, useState } from "react";
 
-import { Field, Input, Label, Textarea } from "@/components";
+import { Field, Label, Textarea } from "@/components";
 import { Definition } from "@/features/term/definition";
 import {
   VOCABULARY_DEFINITION_KEY,
@@ -14,14 +14,14 @@ export function DefinitionField({
   term,
   defaultKeywords,
 }: {
-  term: Term;
-  defaultKeywords: Keyword[];
+  term?: Term;
+  defaultKeywords?: Keyword[];
 }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const [definition, setDefinition] = useState(term.definition);
+  const [definition, setDefinition] = useState(term?.definition ?? "");
   const [keywords, setKeywords] = useState<string[]>(
-    defaultKeywords.map((k) => k.text)
+    defaultKeywords?.map((k) => k.text) ?? []
   );
 
   useEffect(() => {
@@ -57,13 +57,6 @@ export function DefinitionField({
   return (
     <Field>
       <Label>Definition</Label>
-      <Definition
-        value={definition}
-        keywords={keywords}
-        onClickKeyword={(clickedKeyword) =>
-          setKeywords(keywords.filter((keyword) => clickedKeyword !== keyword))
-        }
-      />
       <Textarea
         ref={textareaRef}
         name={VOCABULARY_DEFINITION_KEY}
@@ -71,6 +64,13 @@ export function DefinitionField({
         placeholder={`Type the definition of ${term?.name}`}
         value={definition}
         onChange={(e) => setDefinition(e.target.value)}
+      />
+      <Definition
+        value={definition}
+        keywords={keywords}
+        onClickKeyword={(clickedKeyword) =>
+          setKeywords(keywords.filter((keyword) => clickedKeyword !== keyword))
+        }
       />
       {keywords.map((keyword) => (
         <input
