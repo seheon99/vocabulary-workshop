@@ -11,7 +11,7 @@ export default async function Vocabulary({
   const term = await findTerm(id);
 
   return (
-    <main className="mx-auto mt-20 flex max-w-3xl flex-col items-center gap-10">
+    <main className="flex flex-col items-center gap-10">
       <Strong className="text-3xl font-bold">{term?.name}</Strong>
       <form className="w-full" action={submitAnswer}>
         <Field>
