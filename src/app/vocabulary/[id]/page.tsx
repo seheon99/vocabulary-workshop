@@ -1,4 +1,4 @@
-import { Field, Input, Label, Strong } from "@/components";
+import { Button, Field, Input, Label, Link, Strong } from "@/components";
 import { submitAnswer } from "@/features/submission/submission.action";
 import { findTerm } from "@/features/term/term.repository";
 import { SUBMISSION_ANSWER_KEY, SUBMISSION_TERMID_KEY } from "@/global-keys";
@@ -24,6 +24,9 @@ export default async function Vocabulary({
           />
         </Field>
       </form>
+      <Link href="/">
+        <Button plain>Cancel</Button>
+      </Link>
     </main>
   );
 }
