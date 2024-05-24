@@ -21,6 +21,7 @@ export default async function Vocabulary({
             name={SUBMISSION_ANSWER_KEY}
             placeholder="Type your answer here"
             autoFocus
+            autoComplete="off"
           />
         </Field>
       </form>
