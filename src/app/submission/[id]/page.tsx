@@ -5,7 +5,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { notFound } from "next/navigation";
 
-import { Badge, Button, Link, Strong, Text } from "@/components";
+import { Badge, Button, Link, Strong } from "@/components";
 import { findCategory } from "@/features/category/category.repository";
 import { findKeywords } from "@/features/keyword/keyword.repository";
 import { getSessionId } from "@/features/session/session.action";
@@ -31,7 +31,7 @@ export default async function Submission({
     notFound();
   }
 
-  const category = await findCategory(term.categoryId);
+  const category = await findCategory({ id: term.categoryId });
   const keywords = await findKeywords({ termId: term.id });
   const keywordTexts = keywords.map((keyword) => keyword.text);
 

@@ -1,7 +1,6 @@
 "use client";
 
-import clsx from "clsx";
-import React, { HTMLAttributes, useState } from "react";
+import React, { useState } from "react";
 
 import {
   Button,
@@ -25,7 +24,12 @@ export function CreateCategoryButton({
     <>
       <Button {...props} onClick={() => setIsOpen(true)} />
       <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
-        <form action={createCategoryAction}>
+        <form
+          action={async (formData) => {
+            await createCategoryAction(formData);
+            setIsOpen(false);
+          }}
+        >
           <DialogTitle>Create new category</DialogTitle>
           <DialogDescription>
             If you want to remove existing category, call your brother Heon.
@@ -40,9 +44,7 @@ export function CreateCategoryButton({
             <Button plain onClick={() => setIsOpen(false)}>
               Cancel
             </Button>
-            <Button type="submit" onClick={() => setIsOpen(false)}>
-              Create
-            </Button>
+            <Button type="submit">Create</Button>
           </DialogActions>
         </form>
       </Dialog>
