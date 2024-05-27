@@ -18,12 +18,14 @@ export async function findCategories(): Promise<Category[]> {
   return await prisma.category.findMany();
 }
 
-export async function findCategory(
-  id: Category["id"]
-): Promise<Category | null> {
+export async function findCategory({
+  id,
+  name,
+}: Partial<Pick<Category, "id" | "name">>): Promise<Category | null> {
   return await prisma.category.findUnique({
     where: {
       id,
+      name,
     },
   });
 }

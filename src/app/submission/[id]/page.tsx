@@ -31,7 +31,7 @@ export default async function Submission({
     notFound();
   }
 
-  const category = await findCategory(term.categoryId);
+  const category = await findCategory({ id: term.categoryId });
   const keywords = await findKeywords({ termId: term.id });
   const keywordTexts = keywords.map((keyword) => keyword.text);
 
