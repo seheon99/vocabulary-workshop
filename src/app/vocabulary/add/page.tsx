@@ -1,6 +1,5 @@
 import {
   Button,
-  DefinitionField,
   Field,
   Fieldset,
   Input,
@@ -10,6 +9,7 @@ import {
   Strong,
 } from "@/components";
 import { findCategories } from "@/features/category/category.repository";
+import { DefinitionField } from "@/features/term/definition-field";
 import { createTermAction } from "@/features/term/term.action";
 import {
   VOCABULARY_CATEGORYID_KEY,
