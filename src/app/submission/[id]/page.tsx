@@ -6,7 +6,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { notFound } from "next/navigation";
 
-import { Badge, Button, Link, Strong } from "@/components";
+import { Badge, Button, KeyboardLink, Link, Strong, Text } from "@/components";
 import { findCategory } from "@/features/category/category.repository";
 import { findKeywords } from "@/features/keyword/keyword.repository";
 import { getSessionId } from "@/features/session/session.action";
@@ -117,6 +117,15 @@ export default async function Submission({
           </Link>
         </div>
       </div>
+      <KeyboardLink
+        className="animate-pulse text-center"
+        keyName="Enter"
+        href="/vocabulary"
+      >
+        <Text>
+          Press <Strong>Enter</Strong> to continue
+        </Text>
+      </KeyboardLink>
     </div>
   );
 }
