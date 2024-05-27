@@ -12,8 +12,8 @@ COPY ./public ./public
 COPY ./src ./src
 COPY ./.env ./.env
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+RUN addgroup --system --gid 1003 nodejs
+RUN adduser --system --uid 976 nextjs
 
 RUN chown -R nextjs:nodejs /app
 USER nextjs
