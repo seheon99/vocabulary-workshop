@@ -17,4 +17,4 @@ export * from "./table";
 export * from "./text";
 export * from "./textarea";
 
-export * from "./definition-field";
+export * from "../features/term/definition-field";

@@ -20,7 +20,7 @@ import {
   VOCABULARY_TERMID_KEY,
 } from "@/global-keys";
 
-import { DefinitionField } from "../../../../components/definition-field";
+import { DefinitionField } from "../../../../features/term/definition-field";
 
 export default async function VocabularyEdit({
   params: { id },
