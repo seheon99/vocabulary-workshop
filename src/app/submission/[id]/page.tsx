@@ -1,5 +1,6 @@
 import {
   ArrowPathIcon,
+  ChevronLeftIcon,
   ChevronRightIcon,
   PencilSquareIcon,
 } from "@heroicons/react/24/outline";
@@ -94,7 +95,13 @@ export default async function Submission({
         </div>
       </main>
       <div className="flex justify-between">
-        <div className="flex-1" />
+        <div className="flex flex-1 justify-start">
+          <Link href={`/`}>
+            <Button plain>
+              <ChevronLeftIcon /> Back to home
+            </Button>
+          </Link>
+        </div>
         <div className="flex flex-1 justify-center">
           <Link href={`/vocabulary/${term.id}`}>
             <Button plain>
