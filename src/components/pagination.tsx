@@ -20,13 +20,11 @@ export function Pagination({
 
 export function PaginationPrevious({
   href = null,
+  className,
   children = "Previous",
-}: {
-  href?: string | null;
-  children?: React.ReactNode;
-}) {
+}: React.PropsWithChildren<{ href?: string | null; className?: string }>) {
   return (
-    <span className="grow basis-0">
+    <span className={clsx(className, "grow basis-0")}>
       <Button
         {...(href === null ? { disabled: true } : { href })}
         plain
@@ -54,13 +52,11 @@ export function PaginationPrevious({
 
 export function PaginationNext({
   href = null,
+  className,
   children = "Next",
-}: {
-  href?: string | null;
-  children?: React.ReactNode;
-}) {
+}: React.PropsWithChildren<{ href?: string | null; className?: string }>) {
   return (
-    <span className="flex grow basis-0 justify-end">
+    <span className={clsx(className, "flex grow basis-0 justify-end")}>
       <Button
         {...(href === null ? { disabled: true } : { href })}
         plain
@@ -86,21 +82,28 @@ export function PaginationNext({
   );
 }
 
-export function PaginationList({ children }: { children: React.ReactNode }) {
+export function PaginationList({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<"span">) {
   return (
-    <span className="hidden items-baseline gap-x-2 sm:flex">{children}</span>
+    <span
+      {...props}
+      className={clsx(className, "hidden items-baseline gap-x-2 sm:flex")}
+    />
   );
 }
 
 export function PaginationPage({
   href,
-  children,
+  className,
   current = false,
-}: {
+  children,
+}: React.PropsWithChildren<{
   href: string;
-  children: string;
+  className?: string;
   current?: boolean;
-}) {
+}>) {
   return (
     <Button
       href={href}
@@ -108,6 +111,7 @@ export function PaginationPage({
       aria-label={`Page ${children}`}
       aria-current={current ? "page" : undefined}
       className={clsx(
+        className,
         "min-w-9 before:absolute before:-inset-px before:rounded-lg",
         current && "before:bg-zinc-950/5 dark:before:bg-white/10"
       )}
@@ -117,13 +121,21 @@ export function PaginationPage({
   );
 }
 
-export function PaginationGap() {
+export function PaginationGap({
+  className,
+  children = <>&hellip;</>,
+  ...props
+}: React.ComponentPropsWithoutRef<"span">) {
   return (
-    <div
+    <span
       aria-hidden="true"
-      className="w-9 select-none text-center text-sm/6 font-semibold text-zinc-950 dark:text-white"
+      {...props}
+      className={clsx(
+        className,
+        "w-9 select-none text-center text-sm/6 font-semibold text-zinc-950 dark:text-white"
+      )}
     >
-      &hellip;
-    </div>
+      {children}
+    </span>
   );
 }
