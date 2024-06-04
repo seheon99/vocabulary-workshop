@@ -13,6 +13,7 @@ export * from "./input";
 export * from "./keyboard-link";
 export * from "./link";
 export * from "./listbox";
+export * from "./navbar";
 export * from "./pagination";
 export * from "./radio";
 export * from "./select";
