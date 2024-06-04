@@ -10,12 +10,24 @@ import {
   AlertTitle,
   Button,
 } from "@/components";
+import { getSessionId } from "@/features/session/session.action";
 import { getRandomTerm } from "@/features/term/term.repository";
 
 export default function Terms() {
+  const [sid, setSessionId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const router = useRouter();
+
+  useEffect(() => {
+    async function checkSession() {
+      const sid = await getSessionId();
+      setSessionId(sid);
+    }
+    if (!sid) {
+      checkSession();
+    }
+  }, [sid]);
 
   useEffect(() => {
     async function redirectRandom() {
@@ -26,10 +38,10 @@ export default function Terms() {
         setError("No terms found, please add term before use quiz.");
       }
     }
-    if (!error) {
+    if (sid && !error) {
       redirectRandom();
     }
-  }, [router, error]);
+  }, [sid, router, error]);
 
   return (
     <Alert open={!!error} onClose={() => setError(null)}>
