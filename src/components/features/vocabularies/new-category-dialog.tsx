@@ -41,7 +41,6 @@ export function NewCategoryDialog({
 
   const onSubmit = useCallback(
     async (data: FormInputs) => {
-      console.dir(data);
       await create(data);
       mutate(CATEGORIES_KEY);
       onClose();
