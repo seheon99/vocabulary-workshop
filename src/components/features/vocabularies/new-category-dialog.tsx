@@ -2,6 +2,7 @@
 
 import { useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { mutate } from "swr";
 import useSWRMutation from "swr/mutation";
 
@@ -30,9 +31,7 @@ export function NewCategoryDialog({
 }) {
   const { data: user } = useCurrentUser();
 
-  const { register, control, handleSubmit } = useForm<FormInputs>({
-    defaultValues: { creatorId: user?.uid },
-  });
+  const { control, handleSubmit } = useForm<FormInputs>();
   const { trigger: create, isMutating: isCreating } = useSWRMutation(
     "createCategory",
     (_, { arg }: { arg: Parameters<typeof createCategory>[0] }) =>
@@ -41,11 +40,15 @@ export function NewCategoryDialog({
 
   const onSubmit = useCallback(
     async (data: FormInputs) => {
-      await create(data);
+      if (!user?.uid) {
+        toast.error("Logging in before modifying data");
+        return;
+      }
+      await create({ creatorId: user?.uid, ...data });
       mutate(CATEGORIES_KEY);
       onClose();
     },
-    [create, onClose],
+    [create, onClose, user?.uid],
   );
 
   return (
@@ -57,7 +60,6 @@ export function NewCategoryDialog({
         </DialogDescription>
         <DialogBody>
           <FieldGroup>
-            <input type="hidden" {...register("creatorId")} />
             <Field>
               <Label>Name</Label>
               <Controller
@@ -88,6 +90,5 @@ export function NewCategoryDialog({
 }
 
 type FormInputs = {
-  creatorId: string;
   name: string;
 };
