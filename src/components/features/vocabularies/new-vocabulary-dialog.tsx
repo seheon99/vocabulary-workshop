@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { mutate } from "swr";
 import useSWRMutation from "swr/mutation";
 
@@ -45,11 +46,7 @@ export function NewVocabularyDialog({
   const { data: categories, isLoading: isLoadingCategories } = useCategories();
   const { data: user } = useCurrentUser();
 
-  const { register, control, handleSubmit, watch, reset } = useForm<FormInputs>(
-    {
-      defaultValues: { creatorId: user?.uid },
-    },
-  );
+  const { control, handleSubmit, watch, reset } = useForm<FormInputs>();
   const [keywords, setKeywords] = useState<string[]>([]);
 
   const { trigger: createVocabulary, isMutating: isCreatingVocabulary } =
@@ -68,7 +65,15 @@ export function NewVocabularyDialog({
 
   const onSubmit = useCallback(
     async (data: FormInputs) => {
-      const vocabulary = await createVocabulary(data);
+      if (!user?.uid) {
+        toast.error("Logging in before create new vocabulary");
+        return;
+      }
+
+      const vocabulary = await createVocabulary({
+        creatorId: user?.uid,
+        ...data,
+      });
       await Promise.all(
         keywords.map((keyword) =>
           createKeyword({ vocabularyId: vocabulary.id, text: keyword }),
@@ -77,7 +82,7 @@ export function NewVocabularyDialog({
       mutate(VOCABULARIES_KEY);
       onClose();
     },
-    [createKeyword, createVocabulary, keywords, onClose],
+    [createKeyword, createVocabulary, keywords, onClose, user?.uid],
   );
 
   const keywordRegExp = useMemo(
@@ -130,7 +135,6 @@ export function NewVocabularyDialog({
         </DialogDescription>
         <DialogBody>
           <FieldGroup>
-            <input type="hidden" {...register("creatorId")} />
             <Field>
               <Label>Category</Label>
               <Controller
@@ -243,7 +247,6 @@ export function NewVocabularyDialog({
 }
 
 type FormInputs = {
-  creatorId: string;
   categoryId: string;
   term: string;
   definition: string;
