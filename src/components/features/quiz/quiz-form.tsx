@@ -39,6 +39,7 @@ export function QuizForm({ vocabularyId }: { vocabularyId: string }) {
   }, [data, router]);
 
   if (isNil(user)) {
+    toast.error("You must be logged in to take the quiz");
     return <Text>Loading ...</Text>;
   }
 
