@@ -7,7 +7,7 @@ import { QuizForm } from "@/components/features/quiz";
 export default async function QuizPage({
   params: { id },
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const vocabulary = await findVocabulary(id);
   if (!vocabulary) {
