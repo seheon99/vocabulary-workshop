@@ -13,7 +13,6 @@ export default async function QuizPage({
   if (!vocabulary) {
     return redirect("/vocabularies");
   }
-
   return (
     <main className="flex flex-col">
       <Heading className="!text-3xl">{vocabulary.term}</Heading>
