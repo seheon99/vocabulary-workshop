@@ -5,10 +5,12 @@ import { Heading } from "@/components/base";
 import { QuizForm } from "@/components/features/quiz";
 
 export default async function QuizPage({
-  params: { id },
+  params,
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const { id } = await params;
+
   const vocabulary = await findVocabulary(id);
   if (!vocabulary) {
     return redirect("/vocabularies");
