@@ -19,10 +19,12 @@ import {
 import { EditVocabularyButton } from "@/components/features/vocabularies";
 
 export default async function Submission({
-  params: { id },
+  params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = await params;
+
   const submission = await findSubmission(id);
   if (!submission) {
     notFound();

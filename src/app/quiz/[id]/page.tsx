@@ -5,15 +5,16 @@ import { Heading } from "@/components/base";
 import { QuizForm } from "@/components/features/quiz";
 
 export default async function QuizPage({
-  params: { id },
+  params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = await params;
+
   const vocabulary = await findVocabulary(id);
   if (!vocabulary) {
     return redirect("/vocabularies");
   }
-
   return (
     <main className="flex flex-col">
       <Heading className="!text-3xl">{vocabulary.term}</Heading>
