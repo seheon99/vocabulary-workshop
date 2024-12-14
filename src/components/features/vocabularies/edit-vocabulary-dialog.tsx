@@ -8,9 +8,9 @@ import useSWRMutation from "swr/mutation";
 
 import {
   createKeyword as createKeywordAction,
+  deleteKeyword as deleteKeywordAction,
   editVocabulary as editVocabularyAction,
   findKeywords,
-  removeKeyword as removeKeywordAction,
 } from "@/actions";
 import {
   Badge,
@@ -39,7 +39,7 @@ export function EditVocabularyDialog({
   open,
   onClose,
 }: {
-  vocabulary: Vocabulary;
+  vocabulary: Vocabulary | null;
   open: boolean;
   onClose: () => void;
 }) {
@@ -50,18 +50,18 @@ export function EditVocabularyDialog({
   const { register, control, handleSubmit, watch, reset } = useForm<FormInputs>(
     {
       defaultValues: {
-        id: vocabulary.id,
-        categoryId: vocabulary.categoryId,
-        term: vocabulary.term,
-        definition: vocabulary.definition,
+        id: vocabulary?.id,
+        categoryId: vocabulary?.categoryId,
+        term: vocabulary?.term,
+        definition: vocabulary?.definition,
       },
     },
   );
 
   const { data: categories, isLoading: isLoadingCategories } = useCategories();
   const { data: keywords, mutate: mutateKeywords } = useSWR(
-    ["keywords", vocabulary.id],
-    () => findKeywords({ vocabularyId: vocabulary.id }),
+    ["keywords", vocabulary?.id],
+    () => vocabulary && findKeywords({ vocabularyId: vocabulary.id }),
   );
 
   const { trigger: createKeyword, isMutating: isCreatingKeywords } =
@@ -71,11 +71,11 @@ export function EditVocabularyDialog({
         createKeywordAction(arg),
     );
 
-  const { trigger: removeKeyword, isMutating: isRemovingKeyword } =
+  const { trigger: deleteKeyword, isMutating: isRemovingKeyword } =
     useSWRMutation(
-      "removeKeyword",
-      (_, { arg }: { arg: Parameters<typeof removeKeywordAction>[0] }) =>
-        removeKeywordAction(arg),
+      "deleteKeyword",
+      (_, { arg }: { arg: Parameters<typeof deleteKeywordAction>[0] }) =>
+        deleteKeywordAction(arg),
     );
 
   const { trigger: editVocabulary, isMutating: isEditingVocabulary } =
@@ -112,13 +112,13 @@ export function EditVocabularyDialog({
         const text = textareaRef.current?.value ?? "";
         const keyword = text.slice(selectionStart, selectionEnd).trim();
 
-        if (keyword.length === 0) {
+        if (keyword.length === 0 || !vocabulary) {
           return;
         }
 
         const existingKeyword = keywords?.find((k) => k.text === keyword);
         if (existingKeyword) {
-          removeKeyword(existingKeyword.id);
+          deleteKeyword(existingKeyword.id);
         } else {
           createKeyword({ vocabularyId: vocabulary.id, text: keyword });
         }
@@ -136,8 +136,8 @@ export function EditVocabularyDialog({
     isFocusedDefinition,
     keywords,
     mutateKeywords,
-    removeKeyword,
-    vocabulary.id,
+    deleteKeyword,
+    vocabulary,
   ]);
 
   return (
@@ -227,7 +227,7 @@ export function EditVocabularyDialog({
                         onClick={async () => {
                           const id = keywords?.find((k) => k.text === part)?.id;
                           if (id) {
-                            await removeKeyword(id);
+                            await deleteKeyword(id);
                             mutateKeywords();
                           }
                         }}
