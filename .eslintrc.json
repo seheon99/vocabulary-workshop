@@ -22,12 +22,7 @@
           "internal",
           "unknown",
           "type",
-          [
-            "parent",
-            "index",
-            "sibling",
-            "object"
-          ]
+          ["parent", "index", "sibling", "object"]
         ],
         "newlines-between": "always",
         "alphabetize": {

@@ -1,8 +1,8 @@
 "use client";
 
 import { EllipsisHorizontalIcon } from "@heroicons/react/16/solid";
-import { useState } from "react";
 import useSWR from "swr";
+import { create } from "zustand";
 
 import { findCategories, findVocabularies } from "@/actions";
 import {
@@ -17,20 +17,52 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/base";
-import { EditVocabularyDialog, NewVocabularyButton } from "@/components/features/vocabularies";
+import {
+  EditVocabularyDialog,
+  NewVocabularyButton,
+} from "@/components/features/vocabularies";
+import { DeleteVocabularyDialog } from "@/components/features/vocabularies/delete-vocabulary-dialog";
 
 import type { Vocabulary } from "@prisma/client";
+
+type Store = {
+  vocabulary: Vocabulary | null;
+  mode: "edit" | "delete" | null;
+
+  setEditMode: (vocabulary: Vocabulary) => void;
+  setDeleteMode: (vocabulary: Vocabulary) => void;
+  clearMode: () => void;
+};
+
+const useStore = create<Store>()((set) => ({
+  vocabulary: null,
+  mode: null,
+
+  setEditMode: (vocabulary) => set(() => ({ vocabulary, mode: "edit" })),
+  setDeleteMode: (vocabulary) => set(() => ({ vocabulary, mode: "delete" })),
+  clearMode: () => set(() => ({ vocabulary: null, mode: null })),
+}));
 
 export default function VocabulariesPage() {
   const { data: categories } = useSWR("CATEGORIES", findCategories);
   const { data: vocabularies } = useSWR("VOCABULARIES", findVocabularies);
 
-  const [vocabulary, setVocabulary] = useState<Vocabulary | null>(null);
+  const { vocabulary, mode, setEditMode, setDeleteMode, clearMode } =
+    useStore();
 
   return (
     <main className="flex flex-col gap-4">
       <NewVocabularyButton />
-      {vocabulary && <EditVocabularyDialog vocabulary={vocabulary} open={!!vocabulary} onClose={() => setVocabulary(null)} />}
+      <EditVocabularyDialog
+        vocabulary={vocabulary}
+        open={mode === "edit"}
+        onClose={() => clearMode()}
+      />
+      <DeleteVocabularyDialog
+        vocabulary={vocabulary}
+        open={mode === "delete"}
+        onClose={() => clearMode()}
+      />
       <Table>
         <TableHead>
           <TableRow>
@@ -57,8 +89,18 @@ export default function VocabulariesPage() {
                       <EllipsisHorizontalIcon />
                     </DropdownButton>
                     <DropdownMenu anchor="bottom end">
-                      <DropdownItem className="w-full" onClick={() => setVocabulary(v)}>Edit</DropdownItem>
-                      <DropdownItem className="w-full">Delete</DropdownItem>
+                      <DropdownItem
+                        className="w-full"
+                        onClick={() => setEditMode(v)}
+                      >
+                        Edit
+                      </DropdownItem>
+                      <DropdownItem
+                        className="w-full"
+                        onClick={() => setDeleteMode(v)}
+                      >
+                        Delete
+                      </DropdownItem>
                     </DropdownMenu>
                   </Dropdown>
                 </div>
