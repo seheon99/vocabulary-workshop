@@ -63,13 +63,13 @@ export default function VocabulariesPage() {
         open={mode === "delete"}
         onClose={() => clearMode()}
       />
-      <Table striped>
+      <Table striped fixed>
         <TableHead>
           <TableRow>
-            <TableHeader>Category</TableHeader>
+            <TableHeader className="w-40">Category</TableHeader>
             <TableHeader>Term</TableHeader>
             <TableHeader>Definition</TableHeader>
-            <TableHeader className="relative w-0">
+            <TableHeader className="w-14">
               <span className="sr-only">Actions</span>
             </TableHeader>
           </TableRow>
@@ -80,8 +80,12 @@ export default function VocabulariesPage() {
               <TableCell className="text-zinc-500">
                 {categories?.find((c) => c.id === v.categoryId)?.name}
               </TableCell>
-              <TableCell className="font-medium">{v.term}</TableCell>
-              <TableCell>{v.definition}</TableCell>
+              <TableCell className="truncate font-medium hover:text-clip">
+                {v.term}
+              </TableCell>
+              <TableCell className="truncate hover:text-clip">
+                {v.definition}
+              </TableCell>
               <TableCell>
                 <div className="-my-1.5 px-[-3] sm:px-[-2.5]">
                   <Dropdown>
