@@ -63,7 +63,7 @@ export default function VocabulariesPage() {
         open={mode === "delete"}
         onClose={() => clearMode()}
       />
-      <Table>
+      <Table striped>
         <TableHead>
           <TableRow>
             <TableHeader>Category</TableHeader>
