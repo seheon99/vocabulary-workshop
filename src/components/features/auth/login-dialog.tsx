@@ -48,7 +48,6 @@ export function LoginDialog({
       } catch (error) {
         if ((error as FirebaseError)?.name === "FirebaseError") {
           const firebaseError = error as FirebaseError;
-          console.dir(firebaseError);
           if (firebaseError.code === "auth/invalid-credential") {
             toast.error("Invalid credentials. Check your email and password");
           } else if (firebaseError.code === "auth/user-not-found") {

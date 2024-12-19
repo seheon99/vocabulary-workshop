@@ -53,7 +53,6 @@ export function SignupDialog({
           await createUser({ id: uid, email: email! });
         }
       } catch (error) {
-        console.dir(error);
         const firebaseError = error as FirebaseError;
         if (firebaseError.code === "auth/email-already-in-use") {
           toast.error("An account with this email already exists");
