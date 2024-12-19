@@ -9,7 +9,6 @@ import type { Vocabulary } from "@prisma/client";
 
 export async function deleteVocabulary({ id }: { id: Vocabulary["id"] }) {
   const user = getAuth(app).currentUser;
-  console.log(user)
   if (!user) {
     Promise.reject("Who are you?");
   }
