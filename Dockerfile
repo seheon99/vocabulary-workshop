@@ -1,7 +1,10 @@
 FROM node:22-alpine
 WORKDIR /app
 
-RUN apk add --no-cache libc6-compat
+RUN apk update
+RUN apk add --no-cache libc6-compat openssl
+RUN rm -rf /var/lib/apt/lists/* /var/cache/apk/*
+
 RUN corepack enable pnpm
 
 COPY package.json pnpm-lock.yaml ./
