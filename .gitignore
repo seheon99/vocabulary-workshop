@@ -1,4 +1,5 @@
-**/*.db
+prisma
+!prisma/schema.prisma
 
 # Created by https://www.toptal.com/developers/gitignore/api/node,windows,linux,macos,react,nextjs,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,windows,linux,macos,react,nextjs,visualstudiocode
