@@ -1,7 +1,11 @@
-import { getAuth } from "firebase/auth";
-import useSWR from "swr";
+"use client";
 
-import { app } from "@/firebase";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import useSWR, { mutate } from "swr";
+
+import { app, auth } from "@/firebase";
+
+onAuthStateChanged(auth, () => mutate(CURRENT_USER_KEY));
 
 export function useCurrentUser() {
   return useSWR(CURRENT_USER_KEY, () => getAuth(app).currentUser);
