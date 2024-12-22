@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import { TrashIcon } from "@heroicons/react/24/outline";
 import { useCallback, useState } from "react";
 
 import { Button, DropdownItem } from "@/components/base";
 
 import type { Vocabulary } from "@prisma/client";
 
-import { EditVocabularyDialog } from "./edit-vocabulary-dialog";
+import { DeleteVocabularyDialog } from ".";
 
-export function EditVocabularyButton({
+export function DeleteVocabularyButton({
   dropdownItem = false,
   vocabulary,
 }: {
@@ -25,14 +25,14 @@ export function EditVocabularyButton({
     <>
       {dropdownItem ? (
         <DropdownItem className="w-full" onClick={openDialog}>
-          Edit
+          Delete
         </DropdownItem>
       ) : (
         <Button plain onClick={openDialog}>
-          <PencilSquareIcon />
+          <TrashIcon />
         </Button>
       )}
-      <EditVocabularyDialog
+      <DeleteVocabularyDialog
         open={isOpen}
         onClose={closeDialog}
         vocabulary={vocabulary}
