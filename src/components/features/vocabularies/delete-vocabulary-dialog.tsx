@@ -1,3 +1,5 @@
+"use client";
+
 import { mutate } from "swr";
 
 import { deleteVocabulary } from "@/actions";
