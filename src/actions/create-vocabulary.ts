@@ -1,5 +1,7 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+
 import { prisma } from "@/utilities";
 
 export async function createVocabulary({
@@ -13,7 +15,7 @@ export async function createVocabulary({
   term: string;
   definition: string;
 }) {
-  return await prisma.vocabulary.create({
+  const vocabulary = await prisma.vocabulary.create({
     data: {
       term,
       definition,
@@ -31,4 +33,8 @@ export async function createVocabulary({
       },
     },
   });
+
+  revalidatePath("/vocabularies");
+
+  return vocabulary;
 }
