@@ -14,9 +14,9 @@ jobs:
       - uses: pnpm/action-setup@v4
       - name: Install dependencies
         run: pnpm install
-      - name: Generate prisma types
+      - name: Generate prisma database
         run: |
           echo 'DATABASE_URL=file:./dev.db' > .env
-          pnpm exec prisma generate
+          pnpm exec prisma migrate dev --name init
       - name: Build Test
         run: pnpm build
