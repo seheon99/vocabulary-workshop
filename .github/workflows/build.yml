@@ -16,7 +16,7 @@ jobs:
         run: pnpm install
       - name: Generate prisma types
         run: |
-          echo 'file:./dev.db' > .env
-          # pnpm exec prisma generate
+          echo 'DATABASE_URL=file:./dev.db' > .env
+          pnpm exec prisma generate
       - name: Build Test
         run: pnpm build
