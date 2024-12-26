@@ -31,7 +31,7 @@ export function NewCategoryDialog({
 }) {
   const { data: user } = useCurrentUser();
 
-  const { control, handleSubmit } = useForm<FormInputs>();
+  const { control, handleSubmit, reset } = useForm<FormInputs>();
   const { trigger: create, isMutating: isCreating } = useSWRMutation(
     "createCategory",
     (_, { arg }: { arg: Parameters<typeof createCategory>[0] }) =>
@@ -46,9 +46,10 @@ export function NewCategoryDialog({
       }
       await create({ creatorId: user?.uid, ...data });
       mutate(CATEGORIES_KEY);
+      reset();
       onClose();
     },
-    [create, onClose, user?.uid],
+    [create, onClose, reset, user?.uid],
   );
 
   return (
@@ -65,10 +66,11 @@ export function NewCategoryDialog({
               <Controller
                 control={control}
                 name="name"
+                defaultValue=""
                 rules={{ required: "Name is required" }}
                 render={({ field, fieldState: { invalid, error } }) => (
                   <>
-                    <Input invalid={invalid} {...field} />
+                    <Input {...field} invalid={invalid} />
                     {error && <ErrorMessage>{error.message}</ErrorMessage>}
                   </>
                 )}
