@@ -138,8 +138,9 @@ export function NewVocabularyDialog({
             <Field>
               <Label>Category</Label>
               <Controller
-                control={control}
                 name="categoryId"
+                control={control}
+                defaultValue=""
                 rules={{ required: "Category is required" }}
                 render={({
                   field: { onChange, value },
