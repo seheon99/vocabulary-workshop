@@ -11,6 +11,7 @@ export * from "./dropdown";
 export * from "./fieldset";
 export * from "./heading";
 export * from "./input";
+export * from "./keyboard-button";
 export * from "./keyboard-link";
 export * from "./link";
 export * from "./listbox";
