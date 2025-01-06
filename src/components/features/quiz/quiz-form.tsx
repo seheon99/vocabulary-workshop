@@ -1,17 +1,27 @@
 "use client";
 
+import { ArrowTurnDownLeftIcon } from "@heroicons/react/16/solid";
 import { isNil } from "es-toolkit";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import useSWRMutation from "swr/mutation";
 
 import { createSubmission } from "@/actions/create-submission";
-import { Button, Field, Fieldset, Input, Label, Text } from "@/components/base";
+import {
+  Field,
+  Fieldset,
+  Input,
+  KeyboardButton,
+  Label,
+  Text,
+} from "@/components/base";
 import { useCurrentUser } from "@/hooks";
 
 export function QuizForm({ vocabularyId }: { vocabularyId: string }) {
+  const router = useRouter();
+
   const { register, handleSubmit } = useForm<FormInputs>();
 
   const { data: user } = useCurrentUser();
@@ -30,7 +40,15 @@ export function QuizForm({ vocabularyId }: { vocabularyId: string }) {
     ) => createSubmission(arg),
   );
 
-  const router = useRouter();
+  const onSubmit = useMemo(
+    () =>
+      user?.uid
+        ? handleSubmit(({ answer }) => {
+            submitAnswer({ userId: user.uid, vocabularyId, answer });
+          })
+        : () => {},
+    [handleSubmit, submitAnswer, user?.uid, vocabularyId],
+  );
 
   useEffect(() => {
     if (data?.id) {
@@ -45,12 +63,7 @@ export function QuizForm({ vocabularyId }: { vocabularyId: string }) {
 
   return (
     <Fieldset>
-      <form
-        className="mt-10 flex w-full flex-col"
-        onSubmit={handleSubmit(({ answer }) => {
-          submitAnswer({ userId: user.uid, vocabularyId, answer });
-        })}
-      >
+      <form className="mt-10 flex w-full flex-col" onSubmit={onSubmit}>
         <Field>
           <Label>Answer</Label>
           <Input
@@ -60,9 +73,21 @@ export function QuizForm({ vocabularyId }: { vocabularyId: string }) {
             autoComplete="off"
           />
         </Field>
-        <Button className="mt-4" type="submit" disabled={isMutating}>
-          Submit
-        </Button>
+        <Text className="mt-4 flex items-center justify-center">
+          Press
+          <KeyboardButton
+            className="mx-2"
+            type="submit"
+            color="light"
+            keyName="Enter"
+            disabled={isMutating}
+            handler={() => onSubmit()}
+          >
+            <ArrowTurnDownLeftIcon />
+            Enter
+          </KeyboardButton>
+          to submit
+        </Text>
       </form>
     </Fieldset>
   );
