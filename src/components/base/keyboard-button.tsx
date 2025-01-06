@@ -7,7 +7,7 @@ import { Button } from "./button";
 type KeyboardButtonProps = Parameters<typeof Button>[0] & {
   keyName: KeyboardEvent["key"];
   disabled?: boolean;
-  handler: (event?: KeyboardEvent) => void;
+  handler?: (event?: KeyboardEvent) => void;
 };
 
 export const KeyboardButton = forwardRef(function KeyboardButton(
@@ -17,7 +17,7 @@ export const KeyboardButton = forwardRef(function KeyboardButton(
   useEffect(() => {
     const listener = (e: KeyboardEvent) => {
       if (!props.disabled && e.key === keyName) {
-        handler(e);
+        handler?.(e);
       }
     };
     window.addEventListener("keydown", listener);

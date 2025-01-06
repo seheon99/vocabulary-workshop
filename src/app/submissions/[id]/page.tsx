@@ -1,8 +1,5 @@
-import {
-  ArrowPathIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from "@heroicons/react/24/outline";
+import { ArrowTurnDownLeftIcon } from "@heroicons/react/16/solid";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { notFound } from "next/navigation";
 
 import { findKeywords, findSubmission, findVocabulary } from "@/actions";
@@ -11,6 +8,7 @@ import {
   Badge,
   Button,
   Definition,
+  KeyboardButton,
   KeyboardLink,
   Link,
   Strong,
@@ -92,21 +90,40 @@ export default async function Submission({
         </div>
       </main>
       <div className="flex justify-between">
-        <div className="flex flex-1 justify-start">
+        <div className="flex flex-1 items-center justify-start">
           <Link href={`/`}>
             <Button plain>
               <ChevronLeftIcon /> Back to home
             </Button>
           </Link>
         </div>
-        <div className="flex flex-1 justify-center">
-          <Link href={`/quiz/${vocabulary.id}`}>
-            <Button plain>
-              <ArrowPathIcon /> Retry
-            </Button>
-          </Link>
+        <div className="flex gap-4">
+          <KeyboardLink
+            className="flex items-center justify-center"
+            keyName="r"
+            href={`/quiz/${vocabulary.id}`}
+          >
+            <Text>
+              <KeyboardButton className="lg:mx-2" keyName="r" color="light">
+                R
+              </KeyboardButton>
+              to retry
+            </Text>
+          </KeyboardLink>
+          <KeyboardLink
+            className="flex items-center justify-center"
+            keyName="Enter"
+            href="/quiz"
+          >
+            <Text>
+              <KeyboardButton className="lg:mx-2" keyName="Enter" color="light">
+                <ArrowTurnDownLeftIcon /> Enter
+              </KeyboardButton>
+              to continue
+            </Text>
+          </KeyboardLink>
         </div>
-        <div className="flex flex-1 justify-end">
+        <div className="flex flex-1 items-center justify-end">
           <Link href="/quiz">
             <Button plain>
               Next <ChevronRightIcon />
@@ -114,15 +131,6 @@ export default async function Submission({
           </Link>
         </div>
       </div>
-      <KeyboardLink
-        className="animate-pulse text-center"
-        keyName="Enter"
-        href="/quiz"
-      >
-        <Text>
-          Press <Strong>Enter</Strong> to continue
-        </Text>
-      </KeyboardLink>
     </div>
   );
 }
