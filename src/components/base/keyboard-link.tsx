@@ -21,17 +21,23 @@ export const KeyboardLink = forwardRef(function KeyboardLink(
   const router = useRouter();
 
   useEffect(() => {
-    const listener = (e: KeyboardEvent) => {
-      if (
-        !disabled &&
-        (!context || context === viewContext) &&
-        e.key === keyName
-      ) {
-        router.push(href);
-      }
-    };
-    window.addEventListener("keydown", listener);
-    return () => window.removeEventListener("keydown", listener);
+    if (!disabled && (!context || context === viewContext)) {
+      const listener = (e: KeyboardEvent) => {
+        if (e.key === keyName) {
+          router.push(href);
+        }
+      };
+      console.debug(
+        `Add Event Listener for ${keyName}, for UI context ${context} (current ${viewContext})`,
+      );
+      window.addEventListener("keydown", listener);
+      return () => {
+        console.debug(
+          `Remove Event Listener for ${keyName}, for UI context ${context} (current ${viewContext})`,
+        );
+        window.removeEventListener("keydown", listener);
+      };
+    }
   }, [keyName, router, href, disabled, context, viewContext]);
 
   return <span ref={ref} {...props} />;

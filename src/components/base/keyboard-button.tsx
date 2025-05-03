@@ -20,17 +20,15 @@ export const KeyboardButton = forwardRef(function KeyboardButton(
   const { viewContext } = useUIStateStore();
 
   useEffect(() => {
-    const listener = (e: KeyboardEvent) => {
-      if (
-        !props.disabled &&
-        (!context || context === viewContext) &&
-        e.key === keyName
-      ) {
-        handler?.(e);
-      }
-    };
-    window.addEventListener("keydown", listener);
-    return () => window.removeEventListener("keydown", listener);
+    if (!props.disabled && (!context || context === viewContext)) {
+      const listener = (e: KeyboardEvent) => {
+        if (e.key === keyName) {
+          handler?.(e);
+        }
+      };
+      window.addEventListener("keydown", listener);
+      return () => window.removeEventListener("keydown", listener);
+    }
   }, [context, handler, keyName, props.disabled, viewContext]);
 
   return <Button ref={ref} {...props} />;
