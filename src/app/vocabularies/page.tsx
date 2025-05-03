@@ -1,11 +1,13 @@
 import { findCategories, findVocabularies } from "@/actions";
 import {
+  Heading,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
+  Text,
 } from "@/components/base";
 import {
   ActionsDropdown,
@@ -18,6 +20,13 @@ export default async function Page() {
 
   return (
     <main className="flex flex-col gap-4">
+      <div>
+        <Heading>Vocabularies</Heading>
+        <Text>
+          Clicking a word row in the table will take you to a quiz page for that
+          specific word.
+        </Text>
+      </div>
       <NewVocabularyButton />
       <Table striped fixed>
         <TableHead>
@@ -32,7 +41,7 @@ export default async function Page() {
         </TableHead>
         <TableBody>
           {vocabularies?.map((v) => (
-            <TableRow key={v.id}>
+            <TableRow key={v.id} href={`/quiz/${v.id}`}>
               <TableCell className="text-zinc-500">
                 {categories?.find((c) => c.id === v.categoryId)?.name}
               </TableCell>
