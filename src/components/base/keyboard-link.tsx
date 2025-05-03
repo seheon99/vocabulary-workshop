@@ -22,7 +22,11 @@ export const KeyboardLink = forwardRef(function KeyboardLink(
 
   useEffect(() => {
     const listener = (e: KeyboardEvent) => {
-      if (!disabled && context === viewContext && e.key === keyName) {
+      if (
+        !disabled &&
+        (!context || context === viewContext) &&
+        e.key === keyName
+      ) {
         router.push(href);
       }
     };

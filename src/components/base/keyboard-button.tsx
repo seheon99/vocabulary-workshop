@@ -21,7 +21,11 @@ export const KeyboardButton = forwardRef(function KeyboardButton(
 
   useEffect(() => {
     const listener = (e: KeyboardEvent) => {
-      if (!props.disabled && context === viewContext && e.key === keyName) {
+      if (
+        !props.disabled &&
+        (!context || context === viewContext) &&
+        e.key === keyName
+      ) {
         handler?.(e);
       }
     };
