@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export type ViewContext = "window" | "dialog";
+export type ViewContext = "screen" | "dialog";
 
 type Store = {
   viewContext: ViewContext;
@@ -8,6 +8,6 @@ type Store = {
 };
 
 export const useUIStateStore = create<Store>()((set) => ({
-  viewContext: "window",
+  viewContext: "screen",
   setViewContext: (viewContext) => set(() => ({ viewContext })),
 }));
