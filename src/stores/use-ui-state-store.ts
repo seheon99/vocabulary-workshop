@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type ViewContext = "window" | "dialog";
+export type ViewContext = "window" | "dialog";
 
 type Store = {
   viewContext: ViewContext;
