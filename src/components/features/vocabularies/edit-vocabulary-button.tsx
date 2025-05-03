@@ -26,7 +26,7 @@ export function EditVocabularyButton({
     setIsOpen(true);
   }, [setViewContext]);
   const closeDialog = useCallback(() => {
-    setViewContext("window");
+    setViewContext("screen");
     setIsOpen(false);
   }, [setViewContext]);
 
