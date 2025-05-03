@@ -8,7 +8,6 @@ import {
   Badge,
   Button,
   Definition,
-  KeyboardButton,
   KeyboardLink,
   Link,
   Strong,
@@ -102,16 +101,12 @@ export default async function Submission({
             className="flex items-center justify-center"
             keyName="r"
             href={`/quiz/${vocabulary.id}`}
+            context="screen"
           >
             <Text>
-              <KeyboardButton
-                className="lg:mx-2"
-                keyName="r"
-                color="light"
-                content="screen"
-              >
+              <Button className="lg:mx-2" color="light">
                 R
-              </KeyboardButton>
+              </Button>
               to retry
             </Text>
           </KeyboardLink>
@@ -119,12 +114,12 @@ export default async function Submission({
             className="flex items-center justify-center"
             keyName="Enter"
             href="/quiz"
-            content="screen"
+            context="screen"
           >
             <Text>
-              <KeyboardButton className="lg:mx-2" keyName="Enter" color="light">
+              <Button className="lg:mx-2" color="light">
                 <ArrowTurnDownLeftIcon /> Enter
-              </KeyboardButton>
+              </Button>
               to continue
             </Text>
           </KeyboardLink>
