@@ -104,7 +104,12 @@ export default async function Submission({
             href={`/quiz/${vocabulary.id}`}
           >
             <Text>
-              <KeyboardButton className="lg:mx-2" keyName="r" color="light">
+              <KeyboardButton
+                className="lg:mx-2"
+                keyName="r"
+                color="light"
+                content="screen"
+              >
                 R
               </KeyboardButton>
               to retry
@@ -114,6 +119,7 @@ export default async function Submission({
             className="flex items-center justify-center"
             keyName="Enter"
             href="/quiz"
+            content="screen"
           >
             <Text>
               <KeyboardButton className="lg:mx-2" keyName="Enter" color="light">
