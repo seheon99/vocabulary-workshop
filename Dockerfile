@@ -13,7 +13,6 @@ COPY next.config.mjs postcss.config.mjs tailwind.config.ts tsconfig.json ./
 COPY ./prisma ./prisma
 COPY ./public ./public
 COPY ./src ./src
-COPY ./.env ./.env
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
@@ -22,8 +21,9 @@ RUN chown -R nextjs:nodejs /app
 USER nextjs
 
 RUN pnpm install --frozen-lockfile
-RUN pnpm exec prisma generate
-RUN pnpm build
+RUN DATABASE_URL="file:/tmp/build.db" pnpm exec prisma generate
+RUN DATABASE_URL="file:/tmp/build.db" pnpm exec prisma db push --skip-generate
+RUN DATABASE_URL="file:/tmp/build.db" pnpm build
 
 EXPOSE 3000
 
