@@ -4,6 +4,7 @@ import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import { useCallback, useState } from "react";
 
 import { Button, DropdownItem } from "@/components/base";
+import { useUIStateStore } from "@/stores";
 
 import type { Vocabulary } from "@prisma/client";
 
@@ -18,8 +19,16 @@ export function EditVocabularyButton({
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const openDialog = useCallback(() => setIsOpen(true), []);
-  const closeDialog = useCallback(() => setIsOpen(false), []);
+  const { setViewContext } = useUIStateStore();
+
+  const openDialog = useCallback(() => {
+    setViewContext("dialog");
+    setIsOpen(true);
+  }, [setViewContext]);
+  const closeDialog = useCallback(() => {
+    setViewContext("screen");
+    setIsOpen(false);
+  }, [setViewContext]);
 
   return (
     <>
