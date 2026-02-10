@@ -21,8 +21,9 @@ RUN chown -R nextjs:nodejs /app
 USER nextjs
 
 RUN pnpm install --frozen-lockfile
-RUN pnpm exec prisma generate
-RUN pnpm build
+RUN DATABASE_URL="file:/tmp/build.db" pnpm exec prisma generate
+RUN DATABASE_URL="file:/tmp/build.db" pnpm exec prisma db push --skip-generate
+RUN DATABASE_URL="file:/tmp/build.db" pnpm build
 
 EXPOSE 3000
 
