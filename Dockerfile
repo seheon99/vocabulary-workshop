@@ -13,7 +13,6 @@ COPY next.config.mjs postcss.config.mjs tailwind.config.ts tsconfig.json ./
 COPY ./prisma ./prisma
 COPY ./public ./public
 COPY ./src ./src
-COPY ./.env ./.env
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
